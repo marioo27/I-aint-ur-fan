@@ -1,0 +1,117 @@
+<div class="page">
+  <header class="hero">
+    <p class="eyebrow">Analizador de Instagram</p>
+    <h1>I ain't ur fan</h1>
+    <p class="lead">
+      I ain't ur fan analiza tus archivos de Instagram y te muestra quién no te sigue de vuelta.
+    </p>
+  </header>
+
+  <section class="card notice">
+    <h2>Cómo usarlo</h2>
+    <p>
+      Exporta tus datos de Instagram en JSON. En la carpeta
+      <strong>connections/followers_and_following</strong> encontrarás
+      <code>followers_1.json</code> y <code>following.json</code>.
+    </p>
+    <p class="privacy">
+      Los archivos se procesan para realizar el análisis y no se guardan permanentemente.
+    </p>
+  </section>
+
+  <section class="card">
+    <form class="upload-form" (submit)="$event.preventDefault(); analyze()">
+      <div class="file-grid">
+        <label class="file-field">
+          <span>Archivo de seguidores</span>
+          <input #followersInput type="file" accept=".json,application/json" (change)="onFollowersSelected($event)" />
+          <small [class.invalid]="isFileInvalid(followersFile)">{{ fileStatus(followersFile, 'seguidores') }}</small>
+        </label>
+
+        <label class="file-field">
+          <span>Archivo de cuentas que sigues</span>
+          <input #followingInput type="file" accept=".json,application/json" (change)="onFollowingSelected($event)" />
+          <small [class.invalid]="isFileInvalid(followingFile)">{{ fileStatus(followingFile, 'seguidos') }}</small>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="primary" [disabled]="!canAnalyze">
+          @if (loading) {
+            Analizando...
+          } @else {
+            Analizar
+          }
+        </button>
+        <button type="button" class="secondary" (click)="clear()" [disabled]="loading">Limpiar</button>
+      </div>
+    </form>
+
+    @if (loading) {
+      <div class="loading" role="status">
+        <span class="spinner"></span>
+        Comparando tus listas...
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error" role="alert">{{ errorMessage }}</div>
+    }
+  </section>
+
+  @if (result) {
+    <section class="card results">
+      <h2>Resultado</h2>
+      <div class="stats">
+        <article>
+          <strong>{{ result.followersCount }}</strong>
+          <span>Seguidores</span>
+        </article>
+        <article>
+          <strong>{{ result.followingCount }}</strong>
+          <span>Cuentas que sigues</span>
+        </article>
+        <article>
+          <strong>{{ result.notFollowingBackCount }}</strong>
+          <span>No te siguen de vuelta</span>
+        </article>
+        <article>
+          <strong>{{ result.youDoNotFollowBackCount }}</strong>
+          <span>Tú no sigues de vuelta</span>
+        </article>
+      </div>
+
+      <div class="lists">
+        <div class="list-panel">
+          <h3>Cuentas que sigues y no te siguen</h3>
+          <div class="list-scroll">
+            @if (result.notFollowingBack.length === 0) {
+              <p class="empty">Nadie de las cuentas que sigues deja de seguirte. Esta lista está vacía.</p>
+            } @else {
+              <ul>
+                @for (username of result.notFollowingBack; track username) {
+                  <li>{{ username }}</li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+
+        <div class="list-panel">
+          <h3>Cuentas que te siguen y tú no sigues</h3>
+          <div class="list-scroll">
+            @if (result.youDoNotFollowBack.length === 0) {
+              <p class="empty">Sigues a todas las cuentas que te siguen. Esta lista está vacía.</p>
+            } @else {
+              <ul>
+                @for (username of result.youDoNotFollowBack; track username) {
+                  <li>{{ username }}</li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+</div>
