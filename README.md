@@ -1,7 +1,7 @@
 # I ain't ur fan
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Java-21%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
   <img src="https://img.shields.io/badge/Maven-3.7%2B-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"/>
   <img src="https://img.shields.io/badge/Spring%20Boot-3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/>
   <img src="https://img.shields.io/badge/Angular-20-DD0031?style=for-the-badge&logo=angular&logoColor=white"/>
@@ -31,9 +31,8 @@ Files are processed in memory and are **not stored permanently**. There is no In
 ## Tech Stack
 
 - **Java 21** — backend language
-- **Maven 3.7+** — build tool (wrapper included)
+- **Maven 3.7** — build tool 
 - **Spring Boot 3.4** — REST API, multipart uploads, CORS, embedded Tomcat
-- **Jackson** — Instagram JSON parsing (comes with Spring)
 - **Angular 20** — frontend
 - **TypeScript 5.9** — frontend language
 - **Node.js 20+** — run and build the Angular app
