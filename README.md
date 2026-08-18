@@ -1,97 +1,55 @@
 # I ain't ur fan
 
-Aplicación web pública para analizar dos archivos JSON exportados desde Instagram: el de seguidores y el de cuentas que sigues.
+<p align="left">
+  <img src="https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Maven-3.7%2B-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"/>
+  <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge"/>
+</p>
 
-## Qué problema resuelve
+**Public web app** | **Instagram JSON analysis** | **No login · No database**
 
-Instagram no muestra de forma clara quién no te sigue de vuelta. Esta aplicación compara tus exportaciones JSON y te indica:
+I ain't ur fan compares two Instagram JSON exports and shows who is a friend, a fan, or an admirer.
 
-- Qué cuentas sigues y no te siguen de vuelta.
-- Qué cuentas te siguen y tú no sigues.
-- El número total de seguidores.
-- El número total de cuentas que sigues.
+> ¿Cansado de ser fan de gente que conoces? Sé solo fan de quien quieras serlo.
 
-## Cómo funciona
+A **fan** is someone you follow who does not follow you back.
 
-1. Exportas tus datos de Instagram en JSON.
-2. Subes `followers_1.json` y `following.json` en la web.
-3. El frontend Angular envía los archivos al backend Spring Boot.
-4. El backend lee los JSON en memoria, compara las listas y devuelve el resultado.
-5. Los archivos no se guardan de forma permanente.
+## What it shows
 
-No hay base de datos, ni usuarios, ni login de Instagram.
+- 👥 **Seguidores** and **cuentas que sigues** (full lists)
+- 🤝 **Amigos** — mutual follow
+- ⭐ **Fans** — you follow them, they do not follow you
+- 👀 **Admiradores** — they follow you, you do not follow them
+- Totals for followers, following, and each list
 
-## Cómo ejecutar el backend en local
+Files are processed in memory and are **not stored permanently**. There is no Instagram login, no passwords, and no database.
 
-Requisitos: Java 17 o superior. Maven no hace falta porque el proyecto incluye Maven Wrapper.
+## Built with
 
-```bash
-cd backend
-./mvnw spring-boot:run
-```
+- Java 17
+- Spring Boot 3.4
+- Maven (wrapper included)
+- Angular 20
+- Node.js 20+ for the frontend
 
-En Windows:
+## How to get your Instagram JSON files
 
-```powershell
-cd backend
-.\mvnw.cmd spring-boot:run
-```
+1. Go to **Instagram** → **Your profile** → **Menu (≡)** → **Your Instagram Data**
+2. Select **Request Download** → **JSON**
+3. You will receive an **email** with a download link (0–48h)
+4. Download the ZIP, extract it, and open **connections** → **followers_and_following**
+5. Upload these two files in the web app:
+   - `followers_1.json`
+   - `following.json`
 
-El backend queda en [http://localhost:8080](http://localhost:8080).
+## Expected file structure
 
-## Cómo ejecutar el frontend en local
+The two files do **not** have the same shape.
 
-Requisitos: Node.js 20 o superior.
+- `followers_1.json`: an array of people who follow you. The username is in `string_list_data[0].value`.
+- `following.json`: an object with `relationships_following`. The username is in `title`.
 
-```bash
-cd frontend
-npm install
-npm start
-```
-
-La interfaz queda en [http://localhost:4200](http://localhost:4200) y llama a `http://localhost:8080`.
-
-## Cómo probar GET /api/health
-
-Con el backend en marcha:
-
-```bash
-curl http://localhost:8080/api/health
-```
-
-Respuesta esperada:
-
-```json
-{ "status": "ok" }
-```
-
-## Cómo probar el análisis con dos archivos JSON
-
-1. Arranca backend y frontend.
-2. Abre [http://localhost:4200](http://localhost:4200).
-3. Selecciona el archivo de seguidores y el de cuentas seguidas.
-4. Pulsa **Analizar**.
-
-También puedes probar el endpoint a mano:
-
-```bash
-curl -X POST http://localhost:8080/api/analyzer/analyze ^
-  -F "followers=@followers_1.json" ^
-  -F "following=@following.json"
-```
-
-## Formato esperado de los JSON
-
-Los archivos salen de la exportación de Instagram:
-
-**Instagram → Tu perfil → Menú → Your Instagram Data → Request Download → JSON.**
-
-Cuando llegue el ZIP, entra en `connections/followers_and_following` y usa:
-
-- `followers_1.json`
-- `following.json`
-
-`followers_1.json` es un array. El usuario está en `string_list_data[0].value`:
+`followers_1.json`:
 
 ```json
 [
@@ -109,7 +67,7 @@ Cuando llegue el ZIP, entra en `connections/followers_and_following` y usa:
 ]
 ```
 
-`following.json` es un objeto. El usuario está en `title`:
+`following.json`:
 
 ```json
 {
@@ -127,102 +85,101 @@ Cuando llegue el ZIP, entra en `connections/followers_and_following` y usa:
 }
 ```
 
-Cada archivo debe ser JSON, no estar vacío, contener usuarios y no superar 10 MB.
+Each file must be valid JSON, not empty, contain usernames, and stay under **10 MB**.
 
-## Cómo subir el repositorio a GitHub
+## Run locally
 
-El remoto ya puede existir. Desde la carpeta del repositorio Git:
+Use **two terminals**. Start the backend first.
+
+### Backend
+
+```powershell
+cd backend
+.\mvnw.cmd spring-boot:run
+```
+
+On macOS / Linux:
 
 ```bash
-git add .
-git status
-git commit -m "Add first working version of I ain't ur fan"
-git push origin main
+cd backend
+./mvnw spring-boot:run
 ```
 
-No subas `node_modules`, `target`, `dist` ni archivos `.env`.
+API: [http://localhost:8080](http://localhost:8080)
 
-## Cómo desplegar el backend en Render
+Health check:
 
-1. Crea un Web Service en Render a partir del repositorio.
-2. Configura:
-
-- **Root Directory:** `backend`
-- **Build Command:** `./mvnw clean package -DskipTests`
-- **Start Command:** `java -jar target/iaint-ur-fan-backend.jar`
-
-3. Render asigna `PORT`. El backend ya usa `server.port=${PORT:8080}`.
-4. Añade, si hace falta, la variable `CORS_ALLOWED_ORIGINS`.
-
-También hay un `backend/Dockerfile` por si prefieres desplegar con Docker. El JAR generado se llama `iaint-ur-fan-backend.jar`.
-
-## Cómo desplegar el frontend en Netlify
-
-1. Conecta el repositorio a Netlify.
-2. El archivo `netlify.toml` ya define:
-
-- **Base:** `frontend`
-- **Build command:** `npm run build`
-- **Publish:** `dist/iaint-ur-fan/browser`
-
-Angular 20 genera la carpeta `browser`. `frontend/public/_redirects` redirige las rutas al `index.html`.
-
-## Dónde cambiar la URL de Render
-
-Edita:
-
-`frontend/src/environments/environment.prod.ts`
-
-Sustituye:
-
-```ts
-apiUrl: 'https://REEMPLAZAR-CON-URL-DE-RENDER'
+```bash
+curl http://localhost:8080/api/health
 ```
 
-por la URL real de Render, por ejemplo `https://iaint-ur-fan.onrender.com`, sin barra final. Después vuelve a desplegar el frontend.
+Expected:
 
-En local se usa `frontend/src/environments/environment.ts` con `http://localhost:8080`.
-
-## Cómo configurar CORS
-
-Por defecto el backend permite:
-
-- `http://localhost:4200`
-- `https://iaint-ur-fan.netlify.app`
-
-En Render puedes cambiar los orígenes con:
-
-```text
-CORS_ALLOWED_ORIGINS=http://localhost:4200,https://iaint-ur-fan.netlify.app,https://tu-dominio.netlify.app
+```json
+{ "status": "ok" }
 ```
 
-No uses `*` en producción. Si el sitio de Netlify tiene otro dominio, añádelo a esa variable.
+### Frontend
 
-## Qué datos se procesan
+```bash
+cd frontend
+npm install
+npm start
+```
 
-Solo los nombres de usuario que aparecen en los JSON de seguidores y seguidos. No se pide contraseña ni acceso a tu cuenta de Instagram.
+UI: [http://localhost:4200](http://localhost:4200) — it calls `http://localhost:8080`.
 
-## Los archivos no se guardan de forma permanente
+Then choose `followers_1.json` and `following.json` and click **Analizar**.
 
-El backend lee los archivos en memoria, calcula el resultado y responde. No hay base de datos ni almacenamiento persistente de las subidas.
+You can also call the API directly:
 
-## Limitaciones actuales
+```bash
+curl -X POST http://localhost:8080/api/analyzer/analyze ^
+  -F "followers=@followers_1.json" ^
+  -F "following=@following.json"
+```
 
-- No hay cuentas de usuario ni historial de análisis.
-- No se conecta con la API de Instagram; hace falta exportar los JSON a mano.
-- El formato esperado es el de la exportación oficial. Si Instagram lo cambia, el parser puede dejar de reconocer usuarios.
-- La URL de producción del backend hay que ponerla a mano en `environment.prod.ts`.
-- El frontend de producción no debe apuntar a `localhost`.
-- Listas muy grandes se muestran con scroll, pero el análisis ocurre en una sola petición.
-- Esta primera versión no calcula seguidores mutuos.
+### Tests
 
-## Estructura
+```powershell
+cd backend
+.\mvnw.cmd test
+```
+
+## Project structure
 
 ```text
 I-aint-ur-fan/
-├── backend/          Spring Boot + Maven
-├── frontend/         Angular
-├── netlify.toml
+├── backend/
+│   ├── Dockerfile
+│   ├── pom.xml
+│   └── src/main/java/com/iainturfan/
+│         ├── IAintUrFanApplication.java
+│         ├── AnalyzerController.java
+│         ├── AnalyzerService.java
+│         ├── JsonManager.java
+│         ├── AnalysisResult.java
+│         └── CorsConfig.java
+├── frontend/
+│   └── src/app/
+│         ├── app.component.ts
+│         ├── app.component.html
+│         ├── app.component.css
+│         └── analyzer.service.ts
 ├── README.md
 └── .gitignore
 ```
+
+## Privacy
+
+Only usernames from the two JSON files are processed. The backend does not save uploads, does not ask for an Instagram password, and does not call Instagram’s API.
+
+## Limitations
+
+- You must export the JSON files yourself; there is no Instagram login.
+- If Instagram changes the export format, parsing may fail.
+- Large lists scroll in the UI; analysis is still a single request.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
