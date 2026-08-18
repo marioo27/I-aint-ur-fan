@@ -7,10 +7,14 @@ import { environment } from '../environments/environment';
 export interface AnalysisResult {
   notFollowingBack: string[];
   youDoNotFollowBack: string[];
+  mutualFollowers: string[];
+  followers: string[];
+  following: string[];
   followersCount: number;
   followingCount: number;
   notFollowingBackCount: number;
   youDoNotFollowBackCount: number;
+  mutualFollowersCount: number;
 }
 
 export interface AnalyzerError {

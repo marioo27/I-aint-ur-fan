@@ -36,13 +36,20 @@ public class AnalyzerService {
         Set<String> youDoNotFollowBack = new TreeSet<>(followers);
         youDoNotFollowBack.removeAll(following);
 
+        Set<String> mutualFollowers = new TreeSet<>(followers);
+        mutualFollowers.retainAll(following);
+
         return new AnalysisResult(
                 notFollowingBack,
                 youDoNotFollowBack,
+                mutualFollowers,
+                new TreeSet<>(followers),
+                new TreeSet<>(following),
                 followers.size(),
                 following.size(),
                 notFollowingBack.size(),
-                youDoNotFollowBack.size()
+                youDoNotFollowBack.size(),
+                mutualFollowers.size()
         );
     }
 

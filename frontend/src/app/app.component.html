@@ -1,115 +1,363 @@
 <div class="page">
   <header class="hero">
-    <p class="eyebrow">Analizador de Instagram</p>
-    <h1>I ain't ur fan</h1>
-    <p class="lead">
-      I ain't ur fan analiza tus archivos de Instagram y te muestra quién no te sigue de vuelta.
+    <h1>I AIN'T UR FAN</h1>
+
+    <p class="tagline">
+      ¿Cansado de ser fan<br />
+      de gente que conoces?
+    </p>
+
+    <p class="manifesto">
+      Sé solo fan de quien quieras serlo
     </p>
   </header>
 
   <section class="card notice">
-    <h2>Cómo usarlo</h2>
     <p>
-      Exporta tus datos de Instagram en JSON. En la carpeta
-      <strong>connections/followers_and_following</strong> encontrarás
-      <code>followers_1.json</code> y <code>following.json</code>.
+      Descubre quién no te sigue de vuelta y a quién sigues sin que te siga.
+      Sube tus archivos JSON exportados desde Instagram.
     </p>
+
+    <p>
+      Necesitas <code>followers_1.json</code>, que contiene tus seguidores,
+      y <code>following.json</code>, que contiene las cuentas que sigues.
+    </p>
+
+    <button
+      type="button"
+      class="help-link"
+      [attr.aria-expanded]="showExportHelp"
+      [attr.aria-controls]="'export-help'"
+      (click)="toggleExportHelp()"
+    >
+      @if (showExportHelp) {
+        Ocultar cómo obtener los archivos
+      } @else {
+        Cómo obtener los archivos JSON
+      }
+    </button>
+
+    @if (showExportHelp) {
+      <div
+        id="export-help"
+        class="export-help"
+      >
+        <h3>Cómo obtener tus archivos JSON de Instagram</h3>
+
+        <ol>
+          <li>
+            En Instagram, abre tu perfil y entra en
+            <strong>Configuración</strong> o en el
+            <strong>Centro de cuentas</strong>.
+          </li>
+
+          <li>
+            Ve a
+            <strong>Tu información y permisos</strong>
+            →
+            <strong>Descargar tu información</strong>.
+          </li>
+
+          <li>
+            Selecciona únicamente los datos relacionados con
+            <strong>seguidores y seguidos</strong>.
+          </li>
+
+          <li>
+            Elige el formato
+            <strong>JSON</strong>
+            y el intervalo
+            <strong>Todo el tiempo</strong>.
+          </li>
+
+          <li>
+            Recibirás un correo con un enlace de descarga.
+            La espera puede variar.
+          </li>
+
+          <li>
+            Descarga el archivo ZIP, extráelo y entra en:
+            <strong>connections</strong>
+            →
+            <strong>followers_and_following</strong>.
+          </li>
+        </ol>
+
+        <h3>Archivos necesarios</h3>
+
+        <ul class="file-names">
+          <li>
+            <code>followers_1.json</code>
+          </li>
+          <li>
+            <code>following.json</code>
+          </li>
+        </ul>
+
+        <p>
+          Si Instagram genera varios archivos de seguidores
+          (<code>followers_1.json</code>,
+          <code>followers_2.json</code>, etc.),
+          esta primera versión utiliza solo el primero.
+        </p>
+
+        <h3>Estructura esperada</h3>
+
+        <ul>
+          <li>
+            <code>followers_1.json</code>:
+            un array con las cuentas que te siguen.
+          </li>
+
+          <li>
+            <code>following.json</code>:
+            un objeto
+            <code>relationships_following</code>
+            con las cuentas que sigues.
+          </li>
+        </ul>
+
+        <p>
+          Sube esos dos archivos aquí.
+          No hace falta copiarlos a ninguna carpeta del proyecto.
+        </p>
+
+        <p>
+          Los nombres de los menús pueden variar ligeramente según la versión
+          de Instagram y el dispositivo.
+        </p>
+      </div>
+    }
+
     <p class="privacy">
-      Los archivos se procesan para realizar el análisis y no se guardan permanentemente.
+      Los archivos se procesan para realizar el análisis
+      y no se guardan permanentemente.
     </p>
   </section>
 
   <section class="card">
-    <form class="upload-form" (submit)="$event.preventDefault(); analyze()">
+    <form
+      class="upload-form"
+      (submit)="$event.preventDefault(); analyze()"
+    >
       <div class="file-grid">
         <label class="file-field">
-          <span>Archivo de seguidores</span>
-          <input #followersInput type="file" accept=".json,application/json" (change)="onFollowersSelected($event)" />
-          <small [class.invalid]="isFileInvalid(followersFile)">{{ fileStatus(followersFile, 'seguidores') }}</small>
+          <span>
+            Archivo de seguidores
+            <code>followers_1.json</code>
+          </span>
+
+          <input
+            #followersInput
+            type="file"
+            accept=".json,application/json"
+            aria-label="Seleccionar archivo de seguidores"
+            (change)="onFollowersSelected($event)"
+          />
+
+          <small
+            [class.invalid]="isFileInvalid(followersFile)"
+          >
+            {{ fileStatus(followersFile, 'seguidores') }}
+          </small>
         </label>
 
         <label class="file-field">
-          <span>Archivo de cuentas que sigues</span>
-          <input #followingInput type="file" accept=".json,application/json" (change)="onFollowingSelected($event)" />
-          <small [class.invalid]="isFileInvalid(followingFile)">{{ fileStatus(followingFile, 'seguidos') }}</small>
+          <span>
+            Archivo de cuentas que sigues
+            <code>following.json</code>
+          </span>
+
+          <input
+            #followingInput
+            type="file"
+            accept=".json,application/json"
+            aria-label="Seleccionar archivo de cuentas que sigues"
+            (change)="onFollowingSelected($event)"
+          />
+
+          <small
+            [class.invalid]="isFileInvalid(followingFile)"
+          >
+            {{ fileStatus(followingFile, 'seguidos') }}
+          </small>
         </label>
       </div>
 
       <div class="actions">
-        <button type="submit" class="primary" [disabled]="!canAnalyze">
+        <button
+          type="submit"
+          class="primary"
+          [disabled]="!canAnalyze"
+        >
           @if (loading) {
             Analizando...
           } @else {
             Analizar
           }
         </button>
-        <button type="button" class="secondary" (click)="clear()" [disabled]="loading">Limpiar</button>
+
+        <button
+          type="button"
+          class="secondary"
+          [disabled]="loading"
+          (click)="clear()"
+        >
+          Limpiar
+        </button>
       </div>
     </form>
 
     @if (loading) {
-      <div class="loading" role="status">
-        <span class="spinner"></span>
+      <div
+        class="loading"
+        role="status"
+        aria-live="polite"
+      >
+        <span
+          class="spinner"
+          aria-hidden="true"
+        ></span>
+
         Comparando tus listas...
       </div>
     }
 
     @if (errorMessage) {
-      <div class="error" role="alert">{{ errorMessage }}</div>
+      <div
+        class="error"
+        role="alert"
+      >
+        {{ errorMessage }}
+      </div>
     }
   </section>
 
   @if (result) {
     <section class="card results">
       <h2>Resultado</h2>
+
       <div class="stats">
-        <article>
-          <strong>{{ result.followersCount }}</strong>
-          <span>Seguidores</span>
-        </article>
-        <article>
-          <strong>{{ result.followingCount }}</strong>
-          <span>Cuentas que sigues</span>
-        </article>
-        <article>
-          <strong>{{ result.notFollowingBackCount }}</strong>
-          <span>No te siguen de vuelta</span>
-        </article>
-        <article>
-          <strong>{{ result.youDoNotFollowBackCount }}</strong>
-          <span>Tú no sigues de vuelta</span>
-        </article>
+        <button
+          type="button"
+          class="stat-button"
+          [class.active]="selectedList === 'followers'"
+          [attr.aria-pressed]="selectedList === 'followers'"
+          (click)="showList('followers')"
+        >
+          <strong>
+            {{ result.followersCount }}
+          </strong>
+
+          <span>
+            Seguidores
+          </span>
+        </button>
+
+        <button
+          type="button"
+          class="stat-button"
+          [class.active]="selectedList === 'following'"
+          [attr.aria-pressed]="selectedList === 'following'"
+          (click)="showList('following')"
+        >
+          <strong>
+            {{ result.followingCount }}
+          </strong>
+
+          <span>
+            Cuentas que sigues
+          </span>
+        </button>
       </div>
 
-      <div class="lists">
-        <div class="list-panel">
-          <h3>Cuentas que sigues y no te siguen</h3>
-          <div class="list-scroll">
-            @if (result.notFollowingBack.length === 0) {
-              <p class="empty">Nadie de las cuentas que sigues deja de seguirte. Esta lista está vacía.</p>
-            } @else {
-              <ul>
-                @for (username of result.notFollowingBack; track username) {
-                  <li>{{ username }}</li>
-                }
-              </ul>
-            }
-          </div>
-        </div>
+      <div
+        class="list-switch"
+        role="tablist"
+        aria-label="Listas del análisis"
+      >
+        <button
+          type="button"
+          role="tab"
+          class="list-button"
+          [class.active]="selectedList === 'mutual'"
+          [attr.aria-selected]="selectedList === 'mutual'"
+          [attr.aria-controls]="'result-list-panel'"
+          (click)="showList('mutual')"
+        >
+          <em>Amigos</em>
 
-        <div class="list-panel">
-          <h3>Cuentas que te siguen y tú no sigues</h3>
-          <div class="list-scroll">
-            @if (result.youDoNotFollowBack.length === 0) {
-              <p class="empty">Sigues a todas las cuentas que te siguen. Esta lista está vacía.</p>
-            } @else {
-              <ul>
-                @for (username of result.youDoNotFollowBack; track username) {
-                  <li>{{ username }}</li>
-                }
-              </ul>
-            }
-          </div>
+          Os seguís mutuamente
+
+          <span>
+            {{ result.mutualFollowersCount }}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          class="list-button"
+          [class.active]="selectedList === 'youDoNotFollowBack'"
+          [attr.aria-selected]="selectedList === 'youDoNotFollowBack'"
+          [attr.aria-controls]="'result-list-panel'"
+          (click)="showList('youDoNotFollowBack')"
+        >
+          <em>Fans</em>
+
+          Te siguen, pero tú no les sigues
+
+          <span>
+            {{ result.youDoNotFollowBackCount }}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          class="list-button"
+          [class.active]="selectedList === 'notFollowingBack'"
+          [attr.aria-selected]="selectedList === 'notFollowingBack'"
+          [attr.aria-controls]="'result-list-panel'"
+          (click)="showList('notFollowingBack')"
+        >
+          <em>Ídolos</em>
+
+          Les sigues, pero no te siguen de vuelta
+
+          <span>
+            {{ result.notFollowingBackCount }}
+          </span>
+        </button>
+      </div>
+
+      <div
+        id="result-list-panel"
+        class="list-panel"
+        role="tabpanel"
+        aria-live="polite"
+      >
+        <h3>
+          {{ selectedListTitle }}
+        </h3>
+
+        <div class="list-scroll">
+          @if (selectedUsernames.length === 0) {
+            <p class="empty">
+              {{ selectedEmptyMessage }}
+            </p>
+          } @else {
+            <ul>
+              @for (
+                username of selectedUsernames;
+                track username
+              ) {
+                <li>
+                  {{ username }}
+                </li>
+              }
+            </ul>
+          }
         </div>
       </div>
     </section>

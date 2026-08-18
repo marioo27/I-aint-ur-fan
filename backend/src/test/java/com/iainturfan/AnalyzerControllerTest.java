@@ -39,8 +39,12 @@ class AnalyzerControllerTest {
                 .andExpect(jsonPath("$.followingCount").value(2))
                 .andExpect(jsonPath("$.notFollowingBackCount").value(1))
                 .andExpect(jsonPath("$.youDoNotFollowBackCount").value(1))
+                .andExpect(jsonPath("$.mutualFollowersCount").value(1))
                 .andExpect(jsonPath("$.notFollowingBack[0]").value("charlie"))
-                .andExpect(jsonPath("$.youDoNotFollowBack[0]").value("bob"));
+                .andExpect(jsonPath("$.youDoNotFollowBack[0]").value("bob"))
+                .andExpect(jsonPath("$.mutualFollowers[0]").value("alice"))
+                .andExpect(jsonPath("$.followers.length()").value(2))
+                .andExpect(jsonPath("$.following.length()").value(2));
     }
 
     @Test

@@ -30,10 +30,14 @@ class AnalyzerServiceTest {
 
         assertThat(result.notFollowingBack()).containsExactly("charlie");
         assertThat(result.youDoNotFollowBack()).containsExactly("bob");
+        assertThat(result.mutualFollowers()).containsExactly("alice");
+        assertThat(result.followers()).containsExactly("alice", "bob");
+        assertThat(result.following()).containsExactly("alice", "charlie");
         assertThat(result.followersCount()).isEqualTo(2);
         assertThat(result.followingCount()).isEqualTo(2);
         assertThat(result.notFollowingBackCount()).isEqualTo(1);
         assertThat(result.youDoNotFollowBackCount()).isEqualTo(1);
+        assertThat(result.mutualFollowersCount()).isEqualTo(1);
     }
 
     @Test
@@ -45,10 +49,12 @@ class AnalyzerServiceTest {
 
         assertThat(result.notFollowingBack()).isEmpty();
         assertThat(result.youDoNotFollowBack()).isEmpty();
+        assertThat(result.mutualFollowers()).containsExactly("alice", "bob");
         assertThat(result.followersCount()).isEqualTo(2);
         assertThat(result.followingCount()).isEqualTo(2);
         assertThat(result.notFollowingBackCount()).isEqualTo(0);
         assertThat(result.youDoNotFollowBackCount()).isEqualTo(0);
+        assertThat(result.mutualFollowersCount()).isEqualTo(2);
     }
 
     @Test
@@ -62,6 +68,8 @@ class AnalyzerServiceTest {
         assertThat(result.followingCount()).isEqualTo(2);
         assertThat(result.notFollowingBackCount()).isEqualTo(1);
         assertThat(result.youDoNotFollowBackCount()).isEqualTo(2);
+        assertThat(result.mutualFollowersCount()).isEqualTo(1);
+        assertThat(result.mutualFollowers()).containsExactly("c");
     }
 
     @Test
@@ -70,10 +78,12 @@ class AnalyzerServiceTest {
 
         assertThat(result.notFollowingBack()).isEmpty();
         assertThat(result.youDoNotFollowBack()).isEmpty();
+        assertThat(result.mutualFollowers()).isEmpty();
         assertThat(result.followersCount()).isEqualTo(0);
         assertThat(result.followingCount()).isEqualTo(0);
         assertThat(result.notFollowingBackCount()).isEqualTo(0);
         assertThat(result.youDoNotFollowBackCount()).isEqualTo(0);
+        assertThat(result.mutualFollowersCount()).isEqualTo(0);
     }
 
     @Test
