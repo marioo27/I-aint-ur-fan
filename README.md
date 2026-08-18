@@ -3,6 +3,10 @@
 <p align="left">
   <img src="https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/>
   <img src="https://img.shields.io/badge/Maven-3.7%2B-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Angular-20-DD0031?style=for-the-badge&logo=angular&logoColor=white"/>
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Node.js-20%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
   <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge"/>
 </p>
 
@@ -24,13 +28,16 @@ A **fan** is someone you follow who does not follow you back.
 
 Files are processed in memory and are **not stored permanently**. There is no Instagram login, no passwords, and no database.
 
-## Built with
+## Tech Stack
 
-- Java 17
-- Spring Boot 3.4
-- Maven (wrapper included)
-- Angular 20
-- Node.js 20+ for the frontend
+- **Java 17** — backend language
+- **Maven 3.7+** — build tool (wrapper included)
+- **Spring Boot 3.4** — REST API, multipart uploads, CORS, embedded Tomcat
+- **Jackson** — Instagram JSON parsing (comes with Spring)
+- **Angular 20** — frontend
+- **TypeScript 5.9** — frontend language
+- **Node.js 20+** — run and build the Angular app
+- **RxJS** — HTTP calls from the UI
 
 ## How to get your Instagram JSON files
 
