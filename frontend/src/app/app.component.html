@@ -1,26 +1,39 @@
 <div class="page">
+  <div class="lang-switch" role="group" [attr.aria-label]="t('languageAria')">
+    <button
+      type="button"
+      class="lang-button"
+      [class.active]="language === 'es'"
+      [attr.aria-pressed]="language === 'es'"
+      (click)="setLanguage('es')"
+    >
+      {{ t('langEs') }}
+    </button>
+    <button
+      type="button"
+      class="lang-button"
+      [class.active]="language === 'en'"
+      [attr.aria-pressed]="language === 'en'"
+      (click)="setLanguage('en')"
+    >
+      {{ t('langEn') }}
+    </button>
+  </div>
+
   <header class="hero">
     <h1>I AIN'T UR FAN</h1>
 
-    <p class="tagline">
-      ¿Cansado de ser fan<br />
-      de gente que conoces?
-    </p>
-
-    <p class="manifesto">
-      Sé solo fan de quien quieras serlo
-    </p>
+    <p class="tagline">{{ t('tagline') }}</p>
+    <p class="manifesto">{{ t('manifesto') }}</p>
   </header>
 
   <section class="card notice">
-    <p>
-      Descubre quién no te sigue de vuelta y a quién sigues sin que te siga.
-      Sube tus archivos JSON exportados desde Instagram.
-    </p>
+    <p>{{ t('intro') }}</p>
 
     <p>
-      Necesitas <code>followers_1.json</code>, que contiene tus seguidores,
-      y <code>following.json</code>, que contiene las cuentas que sigues.
+      {{ t('filesNeedStart') }}
+      <code>followers_1.json</code>{{ t('filesNeedFollowers') }}
+      <code>following.json</code>{{ t('filesNeedFollowing') }}
     </p>
 
     <button
@@ -31,119 +44,65 @@
       (click)="toggleExportHelp()"
     >
       @if (showExportHelp) {
-        Ocultar cómo obtener los archivos
+        {{ t('hideHowToGetFiles') }}
       } @else {
-        Cómo obtener los archivos JSON
+        {{ t('howToGetFiles') }}
       }
     </button>
 
     @if (showExportHelp) {
-      <div
-        id="export-help"
-        class="export-help"
-      >
-        <h3>Cómo obtener tus archivos JSON de Instagram</h3>
+      <div id="export-help" class="export-help">
+        <h3>{{ t('exportTitle') }}</h3>
 
         <ol>
-          <li>
-            En Instagram, abre tu perfil y entra en
-            <strong>Configuración</strong> o en el
-            <strong>Centro de cuentas</strong>.
-          </li>
-
-          <li>
-            Ve a
-            <strong>Tu información y permisos</strong>
-            →
-            <strong>Descargar tu información</strong>.
-          </li>
-
-          <li>
-            Selecciona únicamente los datos relacionados con
-            <strong>seguidores y seguidos</strong>.
-          </li>
-
-          <li>
-            Elige el formato
-            <strong>JSON</strong>
-            y el intervalo
-            <strong>Todo el tiempo</strong>.
-          </li>
-
-          <li>
-            Recibirás un correo con un enlace de descarga.
-            La espera puede variar.
-          </li>
-
-          <li>
-            Descarga el archivo ZIP, extráelo y entra en:
-            <strong>connections</strong>
-            →
-            <strong>followers_and_following</strong>.
-          </li>
+          <li>{{ t('exportStep1') }}</li>
+          <li>{{ t('exportStep2') }}</li>
+          <li>{{ t('exportStep3') }}</li>
+          <li>{{ t('exportStep4') }}</li>
+          <li>{{ t('exportStep5') }}</li>
+          <li>{{ t('exportStep6') }}</li>
         </ol>
 
-        <h3>Archivos necesarios</h3>
+        <h3>{{ t('neededFilesTitle') }}</h3>
 
         <ul class="file-names">
-          <li>
-            <code>followers_1.json</code>
-          </li>
-          <li>
-            <code>following.json</code>
-          </li>
+          <li><code>followers_1.json</code></li>
+          <li><code>following.json</code></li>
         </ul>
 
         <p>
-          Si Instagram genera varios archivos de seguidores
-          (<code>followers_1.json</code>,
-          <code>followers_2.json</code>, etc.),
-          esta primera versión utiliza solo el primero.
+          {{ t('twoFilesStart') }}
+          <code>following.json</code>{{ t('twoFilesAnd') }}
+          <code>followers_1.json</code>{{ t('twoFilesEnd') }}
         </p>
 
-        <h3>Estructura esperada</h3>
+        <h3>{{ t('expectedStructure') }}</h3>
 
         <ul>
           <li>
-            <code>followers_1.json</code>:
-            un array con las cuentas que te siguen.
+            <code>followers_1.json</code>{{ t('followersStructureAfter') }}
           </li>
-
           <li>
-            <code>following.json</code>:
-            un objeto
+            <code>following.json</code>{{ t('followingStructureAfter') }}
             <code>relationships_following</code>
-            con las cuentas que sigues.
+            {{ t('followingStructureEnd') }}
           </li>
         </ul>
 
-        <p>
-          Sube esos dos archivos aquí.
-          No hace falta copiarlos a ninguna carpeta del proyecto.
-        </p>
-
-        <p>
-          Los nombres de los menús pueden variar ligeramente según la versión
-          de Instagram y el dispositivo.
-        </p>
+        <p>{{ t('uploadHere') }}</p>
+        <p>{{ t('menusMayVary') }}</p>
       </div>
     }
 
-    <p class="privacy">
-      Los archivos se procesan para realizar el análisis
-      y no se guardan permanentemente.
-    </p>
+    <p class="privacy">{{ t('privacy') }}</p>
   </section>
 
   <section class="card">
-    <form
-      class="upload-form"
-      (submit)="$event.preventDefault(); analyze()"
-    >
+    <form class="upload-form" (submit)="$event.preventDefault(); analyze()">
       <div class="file-grid">
         <label class="file-field">
           <span>
-            Archivo de seguidores
+            {{ t('followersFileLabel') }}
             <code>followers_1.json</code>
           </span>
 
@@ -151,20 +110,18 @@
             #followersInput
             type="file"
             accept=".json,application/json"
-            aria-label="Seleccionar archivo de seguidores"
+            [attr.aria-label]="t('selectFollowers')"
             (change)="onFollowersSelected($event)"
           />
 
-          <small
-            [class.invalid]="isFileInvalid(followersFile)"
-          >
-            {{ fileStatus(followersFile, 'seguidores') }}
+          <small [class.invalid]="isFileInvalid(followersFile)">
+            {{ fileStatus(followersFile, 'followers') }}
           </small>
         </label>
 
         <label class="file-field">
           <span>
-            Archivo de cuentas que sigues
+            {{ t('followingFileLabel') }}
             <code>following.json</code>
           </span>
 
@@ -172,70 +129,46 @@
             #followingInput
             type="file"
             accept=".json,application/json"
-            aria-label="Seleccionar archivo de cuentas que sigues"
+            [attr.aria-label]="t('selectFollowing')"
             (change)="onFollowingSelected($event)"
           />
 
-          <small
-            [class.invalid]="isFileInvalid(followingFile)"
-          >
-            {{ fileStatus(followingFile, 'seguidos') }}
+          <small [class.invalid]="isFileInvalid(followingFile)">
+            {{ fileStatus(followingFile, 'following') }}
           </small>
         </label>
       </div>
 
       <div class="actions">
-        <button
-          type="submit"
-          class="primary"
-          [disabled]="!canAnalyze"
-        >
+        <button type="submit" class="primary" [disabled]="!canAnalyze">
           @if (loading) {
-            Analizando...
+            {{ t('analyzing') }}
           } @else {
-            Analizar
+            {{ t('analyze') }}
           }
         </button>
 
-        <button
-          type="button"
-          class="secondary"
-          [disabled]="loading"
-          (click)="clear()"
-        >
-          Limpiar
+        <button type="button" class="secondary" [disabled]="loading" (click)="clear()">
+          {{ t('clear') }}
         </button>
       </div>
     </form>
 
     @if (loading) {
-      <div
-        class="loading"
-        role="status"
-        aria-live="polite"
-      >
-        <span
-          class="spinner"
-          aria-hidden="true"
-        ></span>
-
-        Comparando tus listas...
+      <div class="loading" role="status" aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        {{ t('comparing') }}
       </div>
     }
 
-    @if (errorMessage) {
-      <div
-        class="error"
-        role="alert"
-      >
-        {{ errorMessage }}
-      </div>
+    @if (displayedError) {
+      <div class="error" role="alert">{{ displayedError }}</div>
     }
   </section>
 
   @if (result) {
     <section class="card results">
-      <h2>Resultado</h2>
+      <h2>{{ t('result') }}</h2>
 
       <div class="stats">
         <button
@@ -245,13 +178,8 @@
           [attr.aria-pressed]="selectedList === 'followers'"
           (click)="showList('followers')"
         >
-          <strong>
-            {{ result.followersCount }}
-          </strong>
-
-          <span>
-            Seguidores
-          </span>
+          <strong>{{ result.followersCount }}</strong>
+          <span>{{ t('followers') }}</span>
         </button>
 
         <button
@@ -261,21 +189,12 @@
           [attr.aria-pressed]="selectedList === 'following'"
           (click)="showList('following')"
         >
-          <strong>
-            {{ result.followingCount }}
-          </strong>
-
-          <span>
-            Cuentas que sigues
-          </span>
+          <strong>{{ result.followingCount }}</strong>
+          <span>{{ t('following') }}</span>
         </button>
       </div>
 
-      <div
-        class="list-switch"
-        role="tablist"
-        aria-label="Listas del análisis"
-      >
+      <div class="list-switch" role="tablist" [attr.aria-label]="t('listsAria')">
         <button
           type="button"
           role="tab"
@@ -285,13 +204,9 @@
           [attr.aria-controls]="'result-list-panel'"
           (click)="showList('mutual')"
         >
-          <em>Amigos</em>
-
-          Os seguís mutuamente
-
-          <span>
-            {{ result.mutualFollowersCount }}
-          </span>
+          <em>{{ t('friends') }}</em>
+          {{ t('friendsHint') }}
+          <span>{{ result.mutualFollowersCount }}</span>
         </button>
 
         <button
@@ -303,13 +218,9 @@
           [attr.aria-controls]="'result-list-panel'"
           (click)="showList('youDoNotFollowBack')"
         >
-          <em>Fans</em>
-
-          Te siguen, pero tú no les sigues
-
-          <span>
-            {{ result.youDoNotFollowBackCount }}
-          </span>
+          <em>{{ t('fans') }}</em>
+          {{ t('fansHint') }}
+          <span>{{ result.youDoNotFollowBackCount }}</span>
         </button>
 
         <button
@@ -321,40 +232,22 @@
           [attr.aria-controls]="'result-list-panel'"
           (click)="showList('notFollowingBack')"
         >
-          <em>Ídolos</em>
-
-          Les sigues, pero no te siguen de vuelta
-
-          <span>
-            {{ result.notFollowingBackCount }}
-          </span>
+          <em>{{ t('idols') }}</em>
+          {{ t('idolsHint') }}
+          <span>{{ result.notFollowingBackCount }}</span>
         </button>
       </div>
 
-      <div
-        id="result-list-panel"
-        class="list-panel"
-        role="tabpanel"
-        aria-live="polite"
-      >
-        <h3>
-          {{ selectedListTitle }}
-        </h3>
+      <div id="result-list-panel" class="list-panel" role="tabpanel" aria-live="polite">
+        <h3>{{ selectedListTitle }}</h3>
 
         <div class="list-scroll">
           @if (selectedUsernames.length === 0) {
-            <p class="empty">
-              {{ selectedEmptyMessage }}
-            </p>
+            <p class="empty">{{ selectedEmptyMessage }}</p>
           } @else {
             <ul>
-              @for (
-                username of selectedUsernames;
-                track username
-              ) {
-                <li>
-                  {{ username }}
-                </li>
+              @for (username of selectedUsernames; track username) {
+                <li>{{ username }}</li>
               }
             </ul>
           }

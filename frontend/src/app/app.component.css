@@ -6,6 +6,31 @@
   width: min(960px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 64px;
+  position: relative;
+}
+
+.lang-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lang-button {
+  min-width: 48px;
+  border-radius: 999px;
+  background: #181c24;
+  border: 1px solid #2a3140;
+  color: #9aa3b5;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.lang-button.active {
+  background: #ff4d6d;
+  border-color: #ff4d6d;
+  color: #fff;
 }
 
 .hero {
@@ -201,6 +226,22 @@ button {
 button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+button.lang-button {
+  min-width: 48px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  background: #181c24;
+  border: 1px solid #2a3140;
+  color: #9aa3b5;
+}
+
+button.lang-button.active {
+  background: #ff4d6d;
+  border-color: #ff4d6d;
+  color: #fff;
 }
 
 button.help-link {

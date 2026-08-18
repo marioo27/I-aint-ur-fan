@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AnalyzerError, AnalyzerService, AnalysisResult } from './analyzer.service';
+import { LanguageService } from './language.service';
+import { Language, TranslationKey } from './translations';
 
 type ResultList = 'followers' | 'following' | 'mutual' | 'notFollowingBack' | 'youDoNotFollowBack';
 
@@ -18,11 +20,27 @@ export class AppComponent {
   followingFile: File | null = null;
   loading = false;
   errorMessage = '';
+  errorCode = '';
   result: AnalysisResult | null = null;
   selectedList: ResultList = 'mutual';
   showExportHelp = false;
 
-  constructor(private readonly analyzerService: AnalyzerService) {}
+  constructor(
+    private readonly analyzerService: AnalyzerService,
+    private readonly languageService: LanguageService
+  ) {}
+
+  t(key: TranslationKey): string {
+    return this.languageService.t(key);
+  }
+
+  get language(): Language {
+    return this.languageService.language;
+  }
+
+  setLanguage(language: Language): void {
+    this.languageService.setLanguage(language);
+  }
 
   get canAnalyze(): boolean {
     return (
@@ -51,6 +69,7 @@ export class AppComponent {
 
     this.loading = true;
     this.errorMessage = '';
+    this.errorCode = '';
     this.result = null;
 
     this.analyzerService.analyze(this.followersFile, this.followingFile).subscribe({
@@ -61,6 +80,7 @@ export class AppComponent {
       },
       error: (error: AnalyzerError) => {
         this.result = null;
+        this.errorCode = error.code ?? '';
         this.errorMessage = error.message;
         this.loading = false;
       }
@@ -72,6 +92,7 @@ export class AppComponent {
     this.followingFile = null;
     this.loading = false;
     this.errorMessage = '';
+    this.errorCode = '';
     this.result = null;
     this.selectedList = 'mutual';
     if (this.followersInput) {
@@ -112,48 +133,83 @@ export class AppComponent {
   get selectedEmptyMessage(): string {
     switch (this.selectedList) {
       case 'followers':
-        return 'Esta lista de seguidores está vacía.';
+        return this.t('emptyFollowers');
       case 'following':
-        return 'Esta lista de cuentas que sigues está vacía.';
+        return this.t('emptyFollowing');
       case 'mutual':
-        return 'No hay cuentas que te sigan de vuelta. Esta lista está vacía.';
+        return this.t('emptyMutual');
       case 'notFollowingBack':
-        return 'Todas las cuentas que sigues también te siguen. Esta lista está vacía.';
+        return this.t('emptyNotFollowingBack');
       case 'youDoNotFollowBack':
-        return 'Sigues a todas las cuentas que te siguen. Esta lista está vacía.';
+        return this.t('emptyYouDoNotFollowBack');
     }
   }
 
   get selectedListTitle(): string {
     switch (this.selectedList) {
       case 'followers':
-        return 'Seguidores · cuentas que te siguen';
+        return this.t('titleFollowers');
       case 'following':
-        return 'Siguiendo · cuentas que sigues';
+        return this.t('titleFollowing');
       case 'mutual':
-        return 'Amigos · cuentas que sigues y te siguen de vuelta';
+        return this.t('titleMutual');
       case 'notFollowingBack':
-        return 'Fans · cuentas que sigues y no te siguen de vuelta';
+        return this.t('titleNotFollowingBack');
       case 'youDoNotFollowBack':
-        return 'Admiradores · cuentas que te siguen y tú no sigues';
+        return this.t('titleYouDoNotFollowBack');
     }
+  }
+
+  get displayedError(): string {
+    if (!this.errorMessage && !this.errorCode) {
+      return '';
+    }
+
+    if (this.errorMessage.includes('conectar') || this.errorMessage.includes('connect')) {
+      return this.t('errorConnection');
+    }
+
+    const translated = this.errorFromCode(this.errorCode, this.errorMessage);
+    return translated || this.t('errorGeneric');
   }
 
   isFileInvalid(file: File | null): boolean {
     return !!file && (!this.isJsonFile(file) || this.isTooLarge(file));
   }
 
-  fileStatus(file: File | null, label: string): string {
+  fileStatus(file: File | null, kind: 'followers' | 'following'): string {
     if (!file) {
-      return `Ningún archivo de ${label} seleccionado`;
+      return kind === 'followers' ? this.t('noFollowersFile') : this.t('noFollowingFile');
     }
     if (!this.isJsonFile(file)) {
-      return `${file.name} no es un archivo JSON`;
+      return `${file.name} ${this.t('notJson')}`;
     }
     if (this.isTooLarge(file)) {
-      return `${file.name} supera el tamaño máximo de 10 MB`;
+      return `${file.name} ${this.t('tooLarge')}`;
     }
     return file.name;
+  }
+
+  private errorFromCode(code: string, message: string): string {
+    const isFollowing = message.toLowerCase().includes('following');
+    switch (code) {
+      case 'MISSING_FILE':
+        return this.t(isFollowing ? 'errorMissingFollowing' : 'errorMissingFollowers');
+      case 'EMPTY_FILE':
+        return this.t(isFollowing ? 'errorEmptyFollowing' : 'errorEmptyFollowers');
+      case 'FILE_TOO_LARGE':
+        return this.t(isFollowing ? 'errorTooLargeFollowing' : 'errorTooLargeFollowers');
+      case 'NOT_JSON':
+        return this.t(isFollowing ? 'errorNotJsonFollowing' : 'errorNotJsonFollowers');
+      case 'INVALID_JSON':
+        return this.t(isFollowing ? 'errorInvalidJsonFollowing' : 'errorInvalidJsonFollowers');
+      case 'INVALID_STRUCTURE':
+        return this.t(isFollowing ? 'errorInvalidStructureFollowing' : 'errorInvalidStructureFollowers');
+      case 'NO_USERS':
+        return this.t(isFollowing ? 'errorNoUsersFollowing' : 'errorNoUsersFollowers');
+      default:
+        return '';
+    }
   }
 
   private readSelectedFile(event: Event): File | null {
