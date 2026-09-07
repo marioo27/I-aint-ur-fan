@@ -188,6 +188,22 @@ I-aint-ur-fan/
 └── .gitignore
 ```
 
+### Deploy backend on Render (Docker)
+
+1. Create a **Web Service** from this repository.
+2. Settings:
+   - **Language / Runtime:** Docker
+   - **Root Directory:** `backend`
+   - **Dockerfile Path:** `./Dockerfile` (relative to the root directory)
+3. Render sets `PORT`. The app already uses `server.port=${PORT:8080}`.
+4. Optional env var for CORS:
+
+```text
+CORS_ALLOWED_ORIGINS=http://localhost:4200,https://your-frontend.netlify.app
+```
+
+The image builds with **Java 21** (Eclipse Temurin), packages the Spring Boot JAR, and runs it with a JRE.
+
 ### Privacy
 
 Only usernames from the two JSON files are processed. The backend does not save uploads, does not ask for an Instagram password, and does not call Instagram’s API.
@@ -378,6 +394,22 @@ I-aint-ur-fan/
 ├── README.md
 └── .gitignore
 ```
+
+### Desplegar el backend en Render (Docker)
+
+1. Crea un **Web Service** a partir de este repositorio.
+2. Configuración:
+   - **Language / Runtime:** Docker
+   - **Root Directory:** `backend`
+   - **Dockerfile Path:** `./Dockerfile` (relativo al root directory)
+3. Render asigna `PORT`. La app ya usa `server.port=${PORT:8080}`.
+4. Variable opcional para CORS:
+
+```text
+CORS_ALLOWED_ORIGINS=http://localhost:4200,https://tu-frontend.netlify.app
+```
+
+La imagen usa **Java 21** (Eclipse Temurin), empaqueta el JAR de Spring Boot y lo ejecuta con un JRE.
 
 ### Privacidad
 
