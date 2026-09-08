@@ -10,9 +10,14 @@
   <img src="https://img.shields.io/badge/License-MIT-2ea44f?style=for-the-badge"/>
 </p>
 
-[English](#english) · [Español](#español)
+**Live app:** [https://i-aint-ur-fan.netlify.app](https://i-aint-ur-fan.netlify.app)  
+**API:** [https://i-aint-ur-fan.onrender.com](https://i-aint-ur-fan.onrender.com) · health: [`/api/health`](https://i-aint-ur-fan.onrender.com/api/health)
+
+[English](#english) · [Español](#espanol)
 
 ---
+
+<a id="english"></a>
 
 ## English
 
@@ -162,6 +167,8 @@ cd backend
 .\mvnw.cmd test
 ```
 
+More detail: [backend/README.md](backend/README.md) · [frontend/README.md](frontend/README.md)
+
 ### Project structure
 
 ```text
@@ -169,14 +176,19 @@ I-aint-ur-fan/
 ├── backend/
 │   ├── Dockerfile
 │   ├── pom.xml
+│   ├── README.md
 │   └── src/main/java/com/iainturfan/
 │         ├── IAintUrFanApplication.java
 │         ├── AnalyzerController.java
 │         ├── AnalyzerService.java
 │         ├── JsonManager.java
 │         ├── AnalysisResult.java
-│         └── CorsConfig.java
+│         ├── AnalysisException.java
+│         ├── ApiExceptionHandler.java
+│         ├── CorsConfig.java
+│         └── RootRedirectController.java
 ├── frontend/
+│   ├── README.md
 │   └── src/app/
 │         ├── app.component.ts
 │         ├── app.component.html
@@ -184,9 +196,27 @@ I-aint-ur-fan/
 │         ├── analyzer.service.ts
 │         ├── language.service.ts
 │         └── translations.ts
+├── netlify.toml
 ├── README.md
 └── .gitignore
 ```
+
+### Deployed services
+
+| Service  | Platform | URL |
+|----------|----------|-----|
+| Frontend | Netlify  | [https://i-aint-ur-fan.netlify.app](https://i-aint-ur-fan.netlify.app) |
+| Backend  | Render   | [https://i-aint-ur-fan.onrender.com](https://i-aint-ur-fan.onrender.com) |
+
+### Deploy frontend on Netlify
+
+Configured in `netlify.toml` at the repo root:
+
+- **Base directory:** `frontend`
+- **Build command:** `npm run build`
+- **Publish directory:** `dist/iaint-ur-fan/browser`
+
+Production API URL is set in `frontend/src/environments/environment.prod.ts` (`https://i-aint-ur-fan.onrender.com`).
 
 ### Deploy backend on Render (Docker)
 
@@ -196,13 +226,15 @@ I-aint-ur-fan/
    - **Root Directory:** `backend`
    - **Dockerfile Path:** `./Dockerfile` (relative to the root directory)
 3. Render sets `PORT`. The app already uses `server.port=${PORT:8080}`.
-4. Optional env var for CORS:
+4. Optional env var for CORS (defaults already include the Netlify app):
 
 ```text
-CORS_ALLOWED_ORIGINS=http://localhost:4200,https://your-frontend.netlify.app
+CORS_ALLOWED_ORIGINS=http://localhost:4200,https://i-aint-ur-fan.netlify.app
 ```
 
 The image builds with **Java 21** (Eclipse Temurin), packages the Spring Boot JAR, and runs it with a JRE.
+
+> **Note:** On Render’s free tier the service may sleep after inactivity; the first request after sleep can take ~30–60s.
 
 ### Privacy
 
@@ -220,6 +252,8 @@ Only usernames from the two JSON files are processed. The backend does not save 
 MIT License. See [LICENSE](LICENSE).
 
 ---
+
+<a id="espanol"></a>
 
 ## Español
 
@@ -369,6 +403,8 @@ cd backend
 .\mvnw.cmd test
 ```
 
+Más detalle: [backend/README.md](backend/README.md) · [frontend/README.md](frontend/README.md)
+
 ### Estructura del proyecto
 
 ```text
@@ -376,14 +412,19 @@ I-aint-ur-fan/
 ├── backend/
 │   ├── Dockerfile
 │   ├── pom.xml
+│   ├── README.md
 │   └── src/main/java/com/iainturfan/
 │         ├── IAintUrFanApplication.java
 │         ├── AnalyzerController.java
 │         ├── AnalyzerService.java
 │         ├── JsonManager.java
 │         ├── AnalysisResult.java
-│         └── CorsConfig.java
+│         ├── AnalysisException.java
+│         ├── ApiExceptionHandler.java
+│         ├── CorsConfig.java
+│         └── RootRedirectController.java
 ├── frontend/
+│   ├── README.md
 │   └── src/app/
 │         ├── app.component.ts
 │         ├── app.component.html
@@ -391,9 +432,27 @@ I-aint-ur-fan/
 │         ├── analyzer.service.ts
 │         ├── language.service.ts
 │         └── translations.ts
+├── netlify.toml
 ├── README.md
 └── .gitignore
 ```
+
+### Servicios desplegados
+
+| Servicio  | Plataforma | URL |
+|-----------|------------|-----|
+| Frontend  | Netlify    | [https://i-aint-ur-fan.netlify.app](https://i-aint-ur-fan.netlify.app) |
+| Backend   | Render     | [https://i-aint-ur-fan.onrender.com](https://i-aint-ur-fan.onrender.com) |
+
+### Desplegar el frontend en Netlify
+
+Configurado en `netlify.toml` en la raíz del repo:
+
+- **Base directory:** `frontend`
+- **Build command:** `npm run build`
+- **Publish directory:** `dist/iaint-ur-fan/browser`
+
+La URL de la API en producción está en `frontend/src/environments/environment.prod.ts` (`https://i-aint-ur-fan.onrender.com`).
 
 ### Desplegar el backend en Render (Docker)
 
@@ -403,13 +462,15 @@ I-aint-ur-fan/
    - **Root Directory:** `backend`
    - **Dockerfile Path:** `./Dockerfile` (relativo al root directory)
 3. Render asigna `PORT`. La app ya usa `server.port=${PORT:8080}`.
-4. Variable opcional para CORS:
+4. Variable opcional para CORS (por defecto ya incluye la app de Netlify):
 
 ```text
-CORS_ALLOWED_ORIGINS=http://localhost:4200,https://tu-frontend.netlify.app
+CORS_ALLOWED_ORIGINS=http://localhost:4200,https://i-aint-ur-fan.netlify.app
 ```
 
 La imagen usa **Java 21** (Eclipse Temurin), empaqueta el JAR de Spring Boot y lo ejecuta con un JRE.
+
+> **Nota:** En el plan gratuito de Render el servicio puede dormirse por inactividad; la primera petición tras el sueño puede tardar ~30–60 s.
 
 ### Privacidad
 
