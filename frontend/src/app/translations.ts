@@ -168,7 +168,7 @@ export const translations = {
     errorInvalidStructureFollowing: 'The following file is not valid',
     errorNoUsersFollowers: 'The followers file contains no users',
     errorNoUsersFollowing: 'The following file contains no users',
-    madeBy: 'Made by Mario García'
+    madeBy: 'Made by Mario Garcia'
   }
 } as const;
 
