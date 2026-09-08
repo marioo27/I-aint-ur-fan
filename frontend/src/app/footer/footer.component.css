@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  line-height: 0;
+}
+
+.site-footer {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #2a3140;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  height: 1.1em;
+}
+
+.footer-credit {
+  margin: 0;
+  padding: 0;
+  color: #9aa3b5;
+  font-size: 0.65rem;
+  line-height: 1;
+  white-space: nowrap;
+}

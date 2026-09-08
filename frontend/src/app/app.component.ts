@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AnalyzerError, AnalyzerService, AnalysisResult } from './analyzer.service';
+import { FooterComponent } from './footer/footer.component';
 import { LanguageService } from './language.service';
 import { Language, TranslationKey } from './translations';
 
@@ -7,6 +8,7 @@ type ResultList = 'followers' | 'following' | 'mutual' | 'notFollowingBack' | 'y
 
 @Component({
   selector: 'app-root',
+  imports: [FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

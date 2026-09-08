@@ -84,7 +84,8 @@ export const translations = {
     errorInvalidStructureFollowers: 'El archivo followers no tiene un formato válido',
     errorInvalidStructureFollowing: 'El archivo following no tiene un formato válido',
     errorNoUsersFollowers: 'El archivo followers no contiene usuarios',
-    errorNoUsersFollowing: 'El archivo following no contiene usuarios'
+    errorNoUsersFollowing: 'El archivo following no contiene usuarios',
+    madeBy: 'Hecho por Mario García'
   },
   en: {
     tagline: 'Tired of being a fan of people you know?',
@@ -166,7 +167,8 @@ export const translations = {
     errorInvalidStructureFollowers: 'The followers file is not valid',
     errorInvalidStructureFollowing: 'The following file is not valid',
     errorNoUsersFollowers: 'The followers file contains no users',
-    errorNoUsersFollowing: 'The following file contains no users'
+    errorNoUsersFollowing: 'The following file contains no users',
+    madeBy: 'Made by Mario García'
   }
 } as const;
 

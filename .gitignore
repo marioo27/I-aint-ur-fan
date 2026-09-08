@@ -1,22 +1,60 @@
+# Local notes / machine-specific paths
+ExecutionCommands
+
 # Java / Maven
 backend/target/
 backend/.mvn/wrapper/maven-wrapper.jar
+backend/.mvn/timing.properties
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
 
 # Angular / Node
 frontend/node_modules/
 frontend/dist/
 frontend/.angular/
+frontend/coverage/
+frontend/out-tsc/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# IDEs
+# Env / secrets (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+credentials.json
+secrets/
+application-local.properties
+application-*.local.properties
+
+# IDEs / editors
 .idea/
 .vscode/
 *.iml
+*.swp
+*~
+.project
+.classpath
+.settings/
+.cursor/
 
-# Logs and local secrets
+# Logs / temp
 *.log
-.env
+*.tmp
+*.temp
+tmp/
+temp/
 
-# OS / Windows
+# OS
 .DS_Store
 Thumbs.db
 Desktop.ini
+ehthumbs.db
