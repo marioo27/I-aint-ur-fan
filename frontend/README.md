@@ -1,10 +1,12 @@
 # Frontend — I ain't ur fan
 
-Angular 20 UI for uploading Instagram JSON exports and showing friends, fans, and idols. Language toggle: Spanish / English.
+Angular 20 UI for uploading Instagram JSON exports and showing friends, fans, and idols. Language toggle: Spanish / English. Dark Manifesto layout: upload panel in the hero, export-help panel with a Close control, nav with language switch and Analyze.
 
 **Production:** [https://i-aint-ur-fan.netlify.app](https://i-aint-ur-fan.netlify.app)
 
-Full project docs: [../README.md](../README.md)
+Screenshots (EN/ES): [../docs/screenshots](../docs/screenshots) · full project docs: [../README.md](../README.md)
+
+Optional deep links for captures: `/?lang=en`, `/?lang=es`, `/?lang=en&help=1`.
 
 ## How to start
 

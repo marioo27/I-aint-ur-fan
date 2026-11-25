@@ -1,22 +1,127 @@
+/* Hallmark · shape: Marquee Hero · genre: editorial · theme: Manifesto (applied) · job: try · draw: 94a5b5
+ * hero: Stage · nav: edge-aligned · footer: index columns · imagery: product built · signature: upload pair and Analyze in the hero
+ * axes: dark/display-condensed/warm · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V4 · weakest: E, kept Angular wiring and ES/EN */
+/* Hallmark · waive 38iii · one red word in the hero head as Manifesto signature · FAN is the product noun and appears only once */
+
 :root {
   color-scheme: dark;
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 3.75rem);
+  --text-display: clamp(4.5rem, 12vw, 13rem);
+  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem);
+  --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem);
+  --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --color-error: oklch(72% 0.15 27);
+  --container: 1440px;
+  --gutter: 64px;
+  --gap-columns: 32px;
+  --section-gap-s: 120px;
+  --section-gap: 144px;
+  --z-toast: 500;
+  --color-paper: oklch(13% 0.01 60);
+  --color-paper-2: oklch(17% 0.011 60);
+  --color-paper-3: oklch(22% 0.012 60);
+  --color-ink: oklch(95% 0.014 85);
+  --color-ink-2: oklch(84% 0.012 80);
+  --color-muted: oklch(64% 0.016 65);
+  --color-rule: oklch(31% 0.014 60);
+  --color-accent: oklch(56% 0.228 28);
+  --color-accent-deep: oklch(49% 0.2 28);
+  --color-accent-text: oklch(64% 0.22 28);
+  --color-accent-ink: oklch(98.5% 0.004 90);
+  --color-focus: oklch(64% 0.22 28);
+  --font-display: "Anton", "Impact", sans-serif;
+  --font-body: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-card: 0;
+  --rule-hair: 1px;
+  --rule-bar: 4px;
+  --tracking-display: 0.004em;
+  --display-weight: 400;
+  --lh-tight: 0.9;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html,
 body {
-  margin: 0;
-  min-height: 100%;
-  background: #0f1115;
-  color: #eef1f6;
-  font-family: "Segoe UI", system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+html {
+  scrollbar-color: var(--color-muted) var(--color-paper);
+  scroll-padding-top: var(--space-2xl);
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, rgba(255, 77, 109, 0.18), transparent 28%),
-    #0f1115;
+  margin: 0;
+  min-height: 100%;
+  background: var(--color-paper);
+  color: var(--color-ink-2);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 60rem) {
+  :root {
+    --gutter: 24px;
+    --section-gap-s: 80px;
+    --section-gap: 96px;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --gutter: 16px;
+    --section-gap-s: 56px;
+    --section-gap: 72px;
+    --gap-columns: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

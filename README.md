@@ -31,6 +31,12 @@ A **fan** is someone you follow who does not follow you back.
 
 The UI can be switched between **Spanish** and **English**.
 
+### Screenshots
+
+![App home in English](docs/screenshots/app-en-hero.png)
+
+![How to get Instagram JSON files (English)](docs/screenshots/app-en-help.png)
+
 ### What it shows
 
 - 👥 **Followers** and **accounts you follow** (full lists)
@@ -196,6 +202,13 @@ I-aint-ur-fan/
 │         ├── analyzer.service.ts
 │         ├── language.service.ts
 │         └── translations.ts
+├── docs/
+│   ├── capture-screens.mjs
+│   └── screenshots/
+│         ├── app-en-hero.png
+│         ├── app-en-help.png
+│         ├── app-es-hero.png
+│         └── app-es-help.png
 ├── netlify.toml
 ├── README.md
 └── .gitignore
@@ -266,6 +279,12 @@ I ain't ur fan compara dos exportaciones JSON de Instagram y te muestra quién e
 Un **fan** es alguien a quien sigues y que no te sigue de vuelta.
 
 La interfaz se puede cambiar entre **español** e **inglés**.
+
+### Capturas
+
+![Inicio de la app en español](docs/screenshots/app-es-hero.png)
+
+![Cómo obtener los archivos JSON de Instagram (español)](docs/screenshots/app-es-help.png)
 
 ### Qué muestra
 
@@ -432,6 +451,13 @@ I-aint-ur-fan/
 │         ├── analyzer.service.ts
 │         ├── language.service.ts
 │         └── translations.ts
+├── docs/
+│   ├── capture-screens.mjs
+│   └── screenshots/
+│         ├── app-en-hero.png
+│         ├── app-en-help.png
+│         ├── app-es-hero.png
+│         └── app-es-help.png
 ├── netlify.toml
 ├── README.md
 └── .gitignore

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AnalyzerError, AnalyzerService, AnalysisResult } from './analyzer.service';
 import { FooterComponent } from './footer/footer.component';
 import { LanguageService } from './language.service';
@@ -12,7 +12,7 @@ type ResultList = 'followers' | 'following' | 'mutual' | 'notFollowingBack' | 'y
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   private static readonly maxFileSizeBytes = 10 * 1024 * 1024;
 
   @ViewChild('followersInput') followersInput?: ElementRef<HTMLInputElement>;
@@ -31,6 +31,17 @@ export class AppComponent {
     private readonly analyzerService: AnalyzerService,
     private readonly languageService: LanguageService
   ) {}
+
+  ngOnInit(): void {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get('lang');
+    if (lang === 'en' || lang === 'es') {
+      this.setLanguage(lang);
+    }
+    if (params.get('help') === '1') {
+      queueMicrotask(() => this.openExportHelp());
+    }
+  }
 
   t(key: TranslationKey): string {
     return this.languageService.t(key);
@@ -79,6 +90,7 @@ export class AppComponent {
         this.result = result;
         this.selectedList = 'mutual';
         this.loading = false;
+        queueMicrotask(() => this.scrollToId('results'));
       },
       error: (error: AnalyzerError) => {
         this.result = null;
@@ -109,8 +121,17 @@ export class AppComponent {
     this.selectedList = list;
   }
 
-  toggleExportHelp(): void {
-    this.showExportHelp = !this.showExportHelp;
+  openExportHelp(): void {
+    this.showExportHelp = true;
+    queueMicrotask(() => this.scrollToId('how'));
+  }
+
+  closeExportHelp(): void {
+    this.showExportHelp = false;
+  }
+
+  private scrollToId(id: string): void {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   get selectedUsernames(): string[] {

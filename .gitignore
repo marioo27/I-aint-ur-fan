@@ -1,6 +1,9 @@
 # Local notes / machine-specific paths
 ExecutionCommands
 
+# Hallmark design runs (local only)
+.hallmark/
+
 # Java / Maven
 backend/target/
 backend/.mvn/wrapper/maven-wrapper.jar

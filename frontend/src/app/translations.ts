@@ -10,6 +10,7 @@ export const translations = {
     filesNeedFollowers: ', que contiene tus seguidores, y',
     filesNeedFollowing: ', que contiene las cuentas que sigues.',
     hideHowToGetFiles: 'Ocultar cómo obtener los archivos',
+    close: 'Cerrar',
     howToGetFiles: 'Cómo obtener los archivos JSON',
     exportTitle: 'Cómo obtener tus archivos JSON de Instagram',
     exportStep1:
@@ -96,6 +97,7 @@ export const translations = {
     filesNeedFollowers: ', which contains your followers, and',
     filesNeedFollowing: ', which contains the accounts you follow.',
     hideHowToGetFiles: 'Hide how to get the files',
+    close: 'Close',
     howToGetFiles: 'How to get the JSON files',
     exportTitle: 'How to get your Instagram JSON files',
     exportStep1: 'On Instagram, open your profile and go to Settings or Accounts Center.',
