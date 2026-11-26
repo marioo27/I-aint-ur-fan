@@ -104,9 +104,12 @@
   border: var(--rule-hair) solid transparent;
   border-radius: var(--radius-card);
   background: none;
-  font: 600 var(--text-md) / 1 var(--font-body);
+  font: 600 var(--text-md) / 1.25 var(--font-body);
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
   transition:
     background-color var(--dur-short) var(--ease-out),
     color var(--dur-short) var(--ease-out),
@@ -703,13 +706,71 @@
 }
 
 @media (max-width: 60rem) {
+  .hero {
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
   .hero__grid,
   .files-grid,
-  .upload-pair,
-  .result-tabs,
-  .stats,
   .record li,
   .steps li {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__grid {
+    gap: var(--space-xl);
+  }
+
+  .display {
+    font-size: clamp(2.75rem, 14vw, 5.5rem);
+  }
+
+  .export-help__bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .export-help__title {
+    max-width: none;
+    font-size: clamp(1.75rem, 7vw, 2.75rem);
+  }
+
+  .export-help__bar .btn {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 40rem) {
+  .upload-pair,
+  .result-tabs,
+  .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__actions,
+  .product-stage .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn,
+  .product-stage .hero__actions .btn {
+    width: 100%;
+  }
+
+  .product-stage {
+    padding: var(--space-md);
+  }
+
+  .export-help {
+    padding: var(--space-md);
+  }
+
+  .band--red h2 {
+    max-width: none;
+  }
+
+  .result-tabs strong {
+    font-size: var(--text-md);
   }
 }
